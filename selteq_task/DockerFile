@@ -1,0 +1,16 @@
+
+FROM python:3.9
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /selteq_task
+
+COPY requirements.txt /myapp/
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . /myapp/
+
+EXPOSE 8000
+
+CMD celery -A myapp worker --detach && python manage.py runserver 0.0.0.0:8000
